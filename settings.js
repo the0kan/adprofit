@@ -3,11 +3,20 @@ import { getApiBase } from "./config.js";
 
 const userEl = document.getElementById("settings-user");
 const metaEl = document.getElementById("settings-meta-connection");
+const wsEl = document.getElementById("settings-workspace-info");
 const signOutBtn = document.getElementById("settings-sign-out");
 
 const session = getSession();
 if (userEl) {
   userEl.textContent = `Signed in as: ${session?.email || "Demo user"}`;
+}
+
+if (wsEl) {
+  if (session?.workspaceId) {
+    wsEl.textContent = `Active workspace ID: ${session.workspaceId}`;
+  } else {
+    wsEl.textContent = "No workspace id in session — sign in again after API signup.";
+  }
 }
 
 if (signOutBtn instanceof HTMLButtonElement) {
@@ -16,7 +25,12 @@ if (signOutBtn instanceof HTMLButtonElement) {
 
 async function initConnection() {
   const base = getApiBase();
-  if (!base || !metaEl) return;
+  if (!metaEl) return;
+  if (!base) {
+    metaEl.textContent =
+      "Meta: configure API base (meta tag or localStorage) to see connection status.";
+    return;
+  }
   try {
     const res = await fetch(`${base}/v1/integrations/meta/connection`, {
       headers: { Accept: "application/json" },
@@ -25,12 +39,12 @@ async function initConnection() {
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data?.connection) {
-      metaEl.textContent = `Meta connection: ${data.connection.accountName || data.connection.accountId} (${data.connection.currency || "—"})`;
+      metaEl.textContent = `${data.connection.accountName || data.connection.accountId} · ${data.connection.currency || "—"} · status ${data.connection.status || "—"}`;
       return;
     }
-    metaEl.textContent = "Meta connection: not connected.";
+    metaEl.textContent = "No Meta ad account selected. Connect from the dashboard.";
   } catch {
-    metaEl.textContent = "Meta connection: unavailable right now.";
+    metaEl.textContent = "Could not reach the API for Meta status.";
   }
 }
 

@@ -184,12 +184,14 @@ function renderSystem(s) {
   const rows = [
     ["Frontend URL", s.frontendUrl],
     ["Backend URL", s.backendUrl],
-    ["CORS origin", s.corsOrigin],
+    ["CORS origin configured", s.hasCorsOrigin],
     ["Meta App ID configured", s.hasMetaAppId],
-    ["Meta secret configured", s.hasMetaSecret],
-    ["Meta redirect URI", s.metaRedirectUri],
+    ["Meta app secret configured", s.hasMetaSecret],
+    ["Meta OAuth redirect configured", s.metaOAuthRedirectConfigured],
+    ["Token encryption secret configured", s.hasTokenEncryptionSecret],
+    ["JWT secret configured", s.hasJwtSecret],
     ["Stripe key configured", s.hasStripeKey],
-    ["Database configured", s.hasDatabaseUrl],
+    ["Database URL configured", s.hasDatabaseUrl],
     ["Environment", s.environment],
     ["Demo mode", s.demoMode],
   ];

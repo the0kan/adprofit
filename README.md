@@ -14,6 +14,12 @@ Premium-style **product demo** that combines **Meta Ads** performance with **Woo
 
 **What is real vs mocked:** With the API running and the UI pointed at it, **signup/login** hit PostgreSQL (bcrypt + JWT). The **dashboard** route checks workspace membership and still serves **demo metrics** from `data.js` + the insights engine until metrics are persisted. **Meta Ads OAuth** stores the user access token **encrypted** on the `Connection` row for the configured workspace (see `TOKEN_ENCRYPTION_SECRET` + `DEFAULT_META_WORKSPACE_SLUG` in `backend/.env.example`); campaign insights read from that row after account selection. Without an API base URL, **auth stays offline** (`localStorage` + mock workspace id).
 
+### Data storage & trust (production)
+
+- **Database:** Production uses **Neon PostgreSQL** (or any Postgres compatible with Prisma). The **API + database** are the **source of truth** for users, workspaces, workspace members, **Meta connections**, **encrypted Meta user tokens**, selected **ad account** metadata, **Meta sync logs**, and (later) Stripe subscriptions plus WooCommerce / Shopify connection rows.
+- **Browser `localStorage`** may hold only: **demo/offline session** shape, **UI preferences**, optional **`adprofit.apiBase`**, and the **admin panel token** (`adprofit.admin.token`) for internal operators — **never** Meta access tokens or app secrets.
+- **Frontend** calls the API for Meta OAuth start, account list, connect, connection status, and campaign insights; tokens are **not** exposed in JSON responses.
+
 ---
 
 ## Production URLs (okan-ozkan.eu)

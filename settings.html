@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AdProfit account settings — session, Meta Ads connection, and workspace shortcuts.">
+  <meta name="description" content="AdProfit settings — profile, workspace, Meta Ads connection, billing, and session.">
   <meta name="theme-color" content="#09090b">
   <meta name="adprofit-api-base" content="https://adprofit.onrender.com">
   <title>Settings — AdProfit</title>
@@ -12,32 +12,57 @@
   <link rel="stylesheet" href="auth.css">
 </head>
 <body class="page auth-page settings-page">
-  <main class="auth-shell auth-shell--settings">
-    <div class="auth-card auth-card--settings">
+  <header class="settings-topbar">
+    <div class="settings-topbar__inner">
       <a class="site-logo" href="dashboard.html">AdProfit</a>
-      <h1 class="auth-title">Settings</h1>
-      <p class="auth-lead">Account session, Meta Ads, and quick links. Billing will appear here when Stripe is enabled.</p>
+      <nav class="settings-topbar__nav" aria-label="App">
+        <a class="settings-topbar__link" href="dashboard.html#overview">Dashboard</a>
+        <a class="settings-topbar__link settings-topbar__link--active" href="settings.html" aria-current="page">Settings</a>
+      </nav>
+    </div>
+  </header>
 
-      <section class="settings-block" aria-labelledby="settings-account-h">
-        <h2 class="settings-block__title" id="settings-account-h">Account</h2>
+  <main class="auth-shell auth-shell--settings settings-main">
+    <div class="auth-card auth-card--settings settings-card">
+      <h1 class="auth-title">Settings</h1>
+      <p class="auth-lead">Manage your workspace preferences and integrations. Sensitive tokens never appear here — they stay encrypted on the server.</p>
+
+      <section class="settings-block" aria-labelledby="settings-profile-h">
+        <h2 class="settings-block__title" id="settings-profile-h">Profile</h2>
         <p class="settings-block__text" id="settings-user">Signed in as: —</p>
       </section>
 
+      <section class="settings-block" aria-labelledby="settings-workspace-h">
+        <h2 class="settings-block__title" id="settings-workspace-h">Workspace</h2>
+        <p class="settings-block__text" id="settings-workspace-info">Loading workspace…</p>
+        <p class="settings-block__hint">Workspace name and members are managed from the API. Multi-seat controls ship in a later release.</p>
+      </section>
+
       <section class="settings-block" aria-labelledby="settings-meta-h">
-        <h2 class="settings-block__title" id="settings-meta-h">Meta Ads</h2>
+        <h2 class="settings-block__title" id="settings-meta-h">Connected Meta account</h2>
         <p class="settings-block__text" id="settings-meta-connection">Checking connection…</p>
-        <p class="settings-block__hint">Connect or reconnect from the dashboard integrations section for the full flow. You can also start OAuth directly here.</p>
+        <p class="settings-block__hint">Use <strong>Reconnect</strong> if your session expired. Use <strong>Change account</strong> from the dashboard integrations panel to pick another ad account.</p>
         <div class="settings-actions">
-          <a class="btn btn--secondary" href="https://adprofit.onrender.com/v1/integrations/meta/start">Connect Meta Ads</a>
-          <a class="btn btn--ghost" href="dashboard.html#integrations">Back to dashboard</a>
+          <a class="btn btn--primary" href="https://adprofit.onrender.com/v1/integrations/meta/start">Reconnect Meta Ads</a>
+          <a class="btn btn--secondary" href="dashboard.html#integrations">Change account</a>
         </div>
       </section>
 
-      <section class="settings-block" aria-labelledby="settings-session-h">
-        <h2 class="settings-block__title" id="settings-session-h">Session</h2>
+      <section class="settings-block" aria-labelledby="settings-billing-h">
+        <h2 class="settings-block__title" id="settings-billing-h">Billing</h2>
+        <p class="settings-block__text">Stripe checkout is not enabled yet. When billing goes live, plans and invoices will appear here.</p>
+      </section>
+
+      <section class="settings-block" aria-labelledby="settings-plan-h">
+        <h2 class="settings-block__title" id="settings-plan-h">Plan</h2>
+        <p class="settings-block__text" id="settings-plan-info">Early access · workspace included</p>
+      </section>
+
+      <section class="settings-block" aria-labelledby="settings-security-h">
+        <h2 class="settings-block__title" id="settings-security-h">Security &amp; session</h2>
+        <p class="settings-block__hint">Session data is stored in this browser. Sign out on shared devices.</p>
         <div class="settings-actions">
           <button class="btn btn--primary" type="button" id="settings-sign-out">Sign out</button>
-          <a class="btn btn--ghost" href="admin.html">Admin panel</a>
         </div>
       </section>
 

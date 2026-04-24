@@ -1,6 +1,6 @@
 # Backend setup (Phase 1)
 
-Stack: **Node.js**, **Express**, **PostgreSQL**, **Prisma**, **JWT** (access tokens), **bcrypt** (passwords).
+Stack: **Node.js**, **Express**, **PostgreSQL**, **Prisma**, **JWT** (access tokens), **bcrypt** (passwords). Production commonly uses **Neon** (or Supabase / Render / Railway) for Postgres — set `DATABASE_URL` accordingly.
 
 ## Prerequisites
 

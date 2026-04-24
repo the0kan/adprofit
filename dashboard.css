@@ -1088,7 +1088,7 @@
 
 .data-table {
   width: 100%;
-  min-width: 56rem;
+  min-width: 72rem;
   font-size: var(--db-text-sm);
 }
 
@@ -2084,4 +2084,111 @@
   margin: var(--db-space-1) 0 0;
   color: var(--db-text-muted);
   font-size: var(--db-text-xs);
+}
+
+/* Overview stack + nav */
+.dashboard-overview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--db-space-10);
+}
+
+.dashboard-nav__item--footer {
+  margin-top: var(--db-space-4);
+  padding-top: var(--db-space-4);
+  border-top: 1px solid var(--db-border);
+}
+
+.dashboard-topbar__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--db-space-3);
+}
+
+.dashboard-env-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--db-space-1) var(--db-space-3);
+  font-size: var(--db-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--db-pill);
+  border: 1px solid var(--db-border-strong);
+}
+
+.dashboard-env-badge--live {
+  color: var(--db-bg);
+  background: linear-gradient(135deg, var(--db-accent), #2dd4bf);
+  border-color: transparent;
+}
+
+.dashboard-env-badge--demo {
+  color: var(--db-text-muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.dashboard-footer__link {
+  color: var(--db-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dashboard-footer__link:hover {
+  color: var(--db-text);
+}
+
+.integration-card__eyebrow {
+  margin: 0 0 var(--db-space-2);
+  font-size: var(--db-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--db-accent);
+}
+
+.integration-card__bullets {
+  margin: 0 0 var(--db-space-5);
+  padding-left: 1.1rem;
+  color: var(--db-text-muted);
+  font-size: var(--db-text-sm);
+  line-height: var(--db-leading-relaxed);
+}
+
+.integration-card__bullets li {
+  margin-bottom: var(--db-space-2);
+}
+
+.integration-card--meta-cta .integration-card__name {
+  font-size: var(--db-text-xl);
+}
+
+.status-pill--neutral {
+  color: var(--db-text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--db-border-strong);
+}
+
+.data-table__stack {
+  font-size: var(--db-text-sm);
+  line-height: var(--db-leading-snug);
+}
+
+.data-table__stack-main {
+  display: block;
+}
+
+.data-table__stack-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--db-text-xs);
+  color: var(--db-text-muted);
+}
+
+.data-table__rec {
+  max-width: 14rem;
+  font-size: var(--db-text-xs);
+  color: var(--db-text-muted);
+  line-height: var(--db-leading-relaxed);
 }

@@ -3,303 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Connect Meta Ads with WooCommerce and Shopify to see ROAS, CPA, revenue, and true profit—so you know which ads actually make money.">
+  <meta name="description" content="AdProfit — profit analytics for Meta Ads and commerce. ROAS is not enough; see estimated profit, CPA, and what to scale or pause.">
   <meta name="theme-color" content="#09090b">
   <meta name="adprofit-api-base" content="https://adprofit.onrender.com">
-  <title>AdProfit — Know Which Ads Actually Make Profit</title>
+  <title>AdProfit — Profit analytics for growth teams</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="page">
+<body class="page page--landing">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Site header / primary navigation -->
-  <header class="site-header">
+  <header class="site-header site-header--elevated">
     <div class="site-header__inner">
       <a class="site-logo" href="index.html">AdProfit</a>
       <nav class="site-nav" aria-label="Primary">
         <ul class="site-nav__list">
-          <li class="site-nav__item"><a class="site-nav__link" href="#features">Features</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#problem">Problem</a></li>
           <li class="site-nav__item"><a class="site-nav__link" href="#how-it-works">How it works</a></li>
-          <li class="site-nav__item"><a class="site-nav__link" href="#why-adprofit">Why AdProfit</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#features">Features</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#preview">Product</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#integrations-land">Integrations</a></li>
           <li class="site-nav__item"><a class="site-nav__link" href="#pricing">Pricing</a></li>
+          <li class="site-nav__item"><a class="site-nav__link" href="#faq">FAQ</a></li>
         </ul>
       </nav>
       <div class="site-header__actions">
-        <a class="btn btn--ghost" href="login.html">Sign In</a>
-        <a class="btn btn--primary" href="signup.html">Get Started</a>
+        <a class="btn btn--ghost" href="login.html?next=dashboard.html">Sign in</a>
+        <a class="btn btn--primary" href="signup.html?next=dashboard.html">Get started</a>
       </div>
     </div>
   </header>
 
-  <main class="main">
+  <main class="main" id="main">
 
-    <!-- Hero: primary value proposition and CTAs -->
-    <section class="hero" id="hero" aria-labelledby="hero-heading">
+    <section class="hero hero--tight" id="hero" aria-labelledby="hero-heading">
       <div class="hero__inner">
-        <p class="hero__eyebrow">Profit intelligence for e-commerce brands</p>
-        <h1 class="hero__title" id="hero-heading">Know Which Ads Actually Make Profit</h1>
-        <p class="hero__subtitle">Connect Meta Ads and your store data to track ROAS, CPA, revenue, and true profit in one place.</p>
+        <p class="hero__eyebrow">Profit intelligence · Meta Ads</p>
+        <h1 class="hero__title" id="hero-heading">Know which campaigns actually fund growth</h1>
+        <p class="hero__subtitle">AdProfit unifies Meta performance with a clear profit lens — so you scale winners and cut waste with confidence.</p>
         <div class="hero__actions">
-          <a class="btn btn--primary btn--large" href="signup.html">Start free trial</a>
-          <a class="btn btn--secondary btn--large" href="#how-it-works">See how it works</a>
+          <a class="btn btn--primary btn--large" href="signup.html?next=dashboard.html">Start free trial</a>
+          <a class="btn btn--secondary btn--large" href="dashboard.html">View live dashboard</a>
         </div>
-        <p class="hero__trust">Trusted by growth teams who need clarity—not vanity metrics.</p>
+        <p class="hero__trust">Built for operators who are tired of vanity ROAS screenshots.</p>
       </div>
     </section>
 
-    <!-- Social proof / credibility -->
-    <section class="social-proof" aria-labelledby="social-proof-heading">
+    <section class="social-proof social-proof--compact" aria-label="Highlights">
       <div class="social-proof__inner">
-        <h2 class="visually-hidden" id="social-proof-heading">Trusted by data-driven brands</h2>
-        <p class="social-proof__label">Built for teams scaling on Meta and major commerce platforms</p>
         <ul class="social-proof__stats">
           <li class="social-proof__stat">
-            <span class="social-proof__stat-value">Meta Ads</span>
-            <span class="social-proof__stat-label">Unified performance</span>
+            <span class="social-proof__stat-value">Live Meta</span>
+            <span class="social-proof__stat-label">OAuth + encrypted tokens on the server</span>
           </li>
           <li class="social-proof__stat">
-            <span class="social-proof__stat-value">WooCommerce &amp; Shopify</span>
-            <span class="social-proof__stat-label">Order &amp; revenue sync</span>
+            <span class="social-proof__stat-value">Neon Postgres</span>
+            <span class="social-proof__stat-label">Workspaces &amp; connections as source of truth</span>
           </li>
           <li class="social-proof__stat">
-            <span class="social-proof__stat-value">Profit-first</span>
-            <span class="social-proof__stat-label">Beyond surface ROAS</span>
+            <span class="social-proof__stat-value">No curl</span>
+            <span class="social-proof__stat-label">Connect Meta entirely in the browser</span>
           </li>
         </ul>
-        <div class="social-proof__brands" role="presentation" aria-hidden="true">
-          <span class="social-proof__brand-placeholder">Brand logo</span>
-          <span class="social-proof__brand-placeholder">Brand logo</span>
-          <span class="social-proof__brand-placeholder">Brand logo</span>
-          <span class="social-proof__brand-placeholder">Brand logo</span>
-        </div>
       </div>
     </section>
 
-    <!-- Product features -->
-    <section class="features" id="features" aria-labelledby="features-heading">
-      <div class="features__inner">
-        <header class="section-header">
-          <h2 class="section-header__title" id="features-heading">Everything you need to tie spend to profit</h2>
-          <p class="section-header__description">Pull ad and store data together, then act on numbers that reflect your real business.</p>
+    <section class="problem-section" id="problem" aria-labelledby="problem-heading">
+      <div class="problem-section__inner">
+        <header class="section-header section-header--left">
+          <h2 class="section-header__title" id="problem-heading">ROAS alone is not enough</h2>
+          <p class="section-header__description">Return on ad spend ignores margin, fees, and whether purchases are incremental. Teams scale the wrong campaigns and finance sees the mismatch weeks later.</p>
         </header>
-        <ul class="feature-grid">
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">Meta Ads integration</h3>
-            <p class="feature-card__text">Connect your Meta Ads account and sync campaign, ad set, and ad-level performance without manual exports.</p>
+        <ul class="problem-section__grid">
+          <li class="problem-card">
+            <h3 class="problem-card__title">Surface metrics</h3>
+            <p class="problem-card__text">Channel dashboards celebrate spend efficiency without tying it to money retained after costs.</p>
           </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">WooCommerce &amp; Shopify</h3>
-            <p class="feature-card__text">Link WooCommerce or Shopify to unify orders, revenue, and customer value alongside your ad spend.</p>
+          <li class="problem-card">
+            <h3 class="problem-card__title">Siloed data</h3>
+            <p class="problem-card__text">Ads live in Meta while truth lives in spreadsheets — slow, fragile, and impossible at scale.</p>
           </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">ROAS, CPA, profit &amp; margin</h3>
-            <p class="feature-card__text">See revenue, ad spend, ROAS, CPA, profit, and margin in one view—aligned to how your store actually performs.</p>
-          </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">Losing campaign detection</h3>
-            <p class="feature-card__text">Surface weak or unprofitable campaigns automatically so you can pause, test, or reallocate before waste compounds.</p>
-          </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">Insights &amp; recommendations</h3>
-            <p class="feature-card__text">Get clear, actionable guidance based on profitability—not just channel dashboards or green ROAS badges.</p>
-          </li>
-          <li class="feature-card">
-            <div class="feature-card__icon" aria-hidden="true"></div>
-            <h3 class="feature-card__title">Room to grow</h3>
-            <p class="feature-card__text">Built for teams who will add accounts, seats, and subscriptions as you scale (coming soon).</p>
+          <li class="problem-card">
+            <h3 class="problem-card__title">Slow decisions</h3>
+            <p class="problem-card__text">Without a single profit-oriented view, pauses and budget shifts arrive too late to protect margin.</p>
           </li>
         </ul>
       </div>
     </section>
 
-    <!-- How it works: onboarding steps -->
     <section class="how-it-works" id="how-it-works" aria-labelledby="how-heading">
       <div class="how-it-works__inner">
         <header class="section-header">
           <h2 class="section-header__title" id="how-heading">How it works</h2>
-          <p class="section-header__description">From connection to clarity in three steps.</p>
+          <p class="section-header__description">Three calm steps from connection to clarity.</p>
         </header>
         <ol class="steps">
           <li class="steps__item">
             <span class="steps__number">1</span>
-            <h3 class="steps__title">Connect your ad account</h3>
-            <p class="steps__text">Authorize Meta Ads so performance and spend flow in securely and stay up to date.</p>
+            <h3 class="steps__title">Connect Meta Ads</h3>
+            <p class="steps__text">OAuth to the AdProfit API. Tokens are encrypted in PostgreSQL — not in your browser.</p>
           </li>
           <li class="steps__item">
             <span class="steps__number">2</span>
-            <h3 class="steps__title">Connect your store</h3>
-            <p class="steps__text">Link WooCommerce or Shopify to pull orders and revenue into the same workspace as your ads.</p>
+            <h3 class="steps__title">Select your ad account</h3>
+            <p class="steps__text">Pick the account that matters for reporting. Change it anytime from the dashboard.</p>
           </li>
           <li class="steps__item">
             <span class="steps__number">3</span>
-            <h3 class="steps__title">Track performance and profit</h3>
-            <p class="steps__text">See true profitability, spot losing campaigns, and prioritize what to scale or stop.</p>
+            <h3 class="steps__title">Act on profit signals</h3>
+            <p class="steps__text">See spend, revenue, ROAS, CPA, CTR, and estimated profit in one workspace built for decisions.</p>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- Why this product: differentiation -->
-    <section class="why" id="why-adprofit" aria-labelledby="why-heading">
-      <div class="why__inner">
-        <div class="why__content">
-          <h2 class="why__title" id="why-heading">ROAS is a signal. Profit is the decision.</h2>
-          <p class="why__lead">A high ROAS can hide unprofitable ads when margins, returns, and fees are left out. AdProfit aligns Meta spend with real store outcomes so you optimize for money in the bank—not dashboard vanity.</p>
-          <ul class="why__list">
-            <li class="why__point">Compare ad spend to net revenue and estimated profit, not just attributed sales.</li>
-            <li class="why__point">Catch campaigns that look efficient on paper but drain budget after costs.</li>
-            <li class="why__point">Make faster, calmer decisions with one source of truth for growth and finance.</li>
-          </ul>
-        </div>
-        <aside class="why__aside" aria-label="Key takeaway">
-          <blockquote class="why__quote">
-            <p>Stop guessing which ads to scale. Know which ones actually pay for themselves.</p>
-          </blockquote>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Pricing placeholder (anchor for nav; full pricing later) -->
-    <section class="pricing-teaser" id="pricing" aria-labelledby="pricing-teaser-heading">
-      <div class="pricing-teaser__inner">
-        <h2 class="pricing-teaser__title" id="pricing-teaser-heading">Simple pricing for growing teams</h2>
-        <p class="pricing-teaser__text">Start with one account, then scale to multi-brand visibility. Payments powered by Stripe — coming soon.</p>
-        <div class="feature-grid">
-          <article class="feature-card">
-            <h3 class="feature-card__title">Starter</h3>
-            <p class="feature-card__text">Early access, 1 Meta ad account, core profitability dashboard.</p>
-            <p class="why__point">Best for founders validating paid channels.</p>
-            <button class="btn btn--secondary" type="button" data-plan="starter">Choose Starter</button>
-          </article>
-          <article class="feature-card">
-            <h3 class="feature-card__title">Growth</h3>
-            <p class="feature-card__text">Multiple ad accounts, richer insights, store integrations roadmap access.</p>
-            <p class="why__point">Best for operators scaling spend across campaigns.</p>
-            <button class="btn btn--primary" type="button" data-plan="growth">Choose Growth</button>
-          </article>
-          <article class="feature-card">
-            <h3 class="feature-card__title">Pro</h3>
-            <p class="feature-card__text">Team collaboration, priority support, advanced reporting controls.</p>
-            <p class="why__point">Best for agencies and multi-brand teams.</p>
-            <button class="btn btn--secondary" type="button" data-plan="pro">Choose Pro</button>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="features" id="faq" aria-labelledby="faq-heading">
+    <section class="features" id="features" aria-labelledby="features-heading">
       <div class="features__inner">
         <header class="section-header">
-          <h2 class="section-header__title" id="faq-heading">FAQ</h2>
-          <p class="section-header__description">Quick answers for early customers and demo users.</p>
+          <h2 class="section-header__title" id="features-heading">What you get</h2>
+          <p class="section-header__description">Everything in v1 is engineered for reliability and a premium in-app experience.</p>
         </header>
         <ul class="feature-grid">
           <li class="feature-card">
-            <h3 class="feature-card__title">Do I need technical setup?</h3>
-            <p class="feature-card__text">No terminal steps are required for normal use. Connect Meta from the dashboard UI and select your account.</p>
+            <div class="feature-card__icon" aria-hidden="true"></div>
+            <h3 class="feature-card__title">Campaign intelligence</h3>
+            <p class="feature-card__text">Sort, filter, and search live Meta campaigns with clear status and recommendations.</p>
           </li>
           <li class="feature-card">
-            <h3 class="feature-card__title">Is profit exact?</h3>
-            <p class="feature-card__text">Current MVP shows estimated profit while deeper COGS/fee modeling is still being expanded.</p>
+            <div class="feature-card__icon" aria-hidden="true"></div>
+            <h3 class="feature-card__title">Estimated profit column</h3>
+            <p class="feature-card__text">Uses an explicit margin model on purchase value minus spend — labeled everywhere as estimated.</p>
           </li>
           <li class="feature-card">
-            <h3 class="feature-card__title">When is Stripe billing live?</h3>
-            <p class="feature-card__text">Stripe architecture is in place and checkout activation is planned for the next release.</p>
+            <div class="feature-card__icon" aria-hidden="true"></div>
+            <h3 class="feature-card__title">Workspace security</h3>
+            <p class="feature-card__text">JWT auth, workspace membership checks on API routes, and admin tools isolated from customer navigation.</p>
+          </li>
+          <li class="feature-card">
+            <div class="feature-card__icon" aria-hidden="true"></div>
+            <h3 class="feature-card__title">Roadmap: commerce sync</h3>
+            <p class="feature-card__text">WooCommerce and Shopify connectors are planned to enrich profit with real COGS and fees.</p>
           </li>
         </ul>
       </div>
     </section>
 
-    <!-- Final conversion CTA -->
-    <section class="cta-block" id="get-started" aria-labelledby="cta-heading">
-      <div class="cta-block__inner">
-        <h2 class="cta-block__title" id="cta-heading">Ready to see true ad profitability?</h2>
-        <p class="cta-block__text">Connect Meta and your store, unify metrics, and replace guesswork with a clear profit picture.</p>
-        <div class="cta-block__actions">
-          <a class="btn btn--primary btn--large" href="signup.html">Get started</a>
-          <a class="btn btn--ghost btn--large" href="#contact">Talk to us</a>
+    <section class="dash-preview" id="preview" aria-labelledby="preview-heading">
+      <div class="dash-preview__inner">
+        <header class="section-header section-header--left">
+          <h2 class="section-header__title" id="preview-heading">Inside the product</h2>
+          <p class="section-header__description">A focused analytics workspace — dark UI, strong typography, and tables built for daily review.</p>
+        </header>
+        <div class="dash-preview__frame" role="img" aria-label="Stylized preview of the AdProfit dashboard">
+          <div class="dash-preview__chrome">
+            <span class="dash-preview__dot"></span>
+            <span class="dash-preview__dot"></span>
+            <span class="dash-preview__dot"></span>
+            <span class="dash-preview__url">dashboard.html</span>
+          </div>
+          <div class="dash-preview__body">
+            <div class="dash-preview__sidebar"></div>
+            <div class="dash-preview__main">
+              <div class="dash-preview__kpi"></div>
+              <div class="dash-preview__kpi"></div>
+              <div class="dash-preview__kpi"></div>
+              <div class="dash-preview__chart"></div>
+            </div>
+          </div>
+        </div>
+        <p class="dash-preview__cta"><a class="btn btn--primary" href="dashboard.html">Open dashboard</a></p>
+      </div>
+    </section>
+
+    <section class="integrations-land" id="integrations-land" aria-labelledby="int-land-heading">
+      <div class="integrations-land__inner">
+        <header class="section-header">
+          <h2 class="section-header__title" id="int-land-heading">Integrations</h2>
+          <p class="section-header__description">Start with Meta today. Commerce platforms ship next on the same architecture.</p>
+        </header>
+        <ul class="integrations-land__list">
+          <li class="integrations-land__item integrations-land__item--live">
+            <h3 class="integrations-land__name">Meta Ads</h3>
+            <p class="integrations-land__status">Available · OAuth + live insights</p>
+          </li>
+          <li class="integrations-land__item">
+            <h3 class="integrations-land__name">WooCommerce</h3>
+            <p class="integrations-land__status">Coming soon</p>
+          </li>
+          <li class="integrations-land__item">
+            <h3 class="integrations-land__name">Shopify</h3>
+            <p class="integrations-land__status">Coming soon</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pricing-land" id="pricing" aria-labelledby="pricing-heading">
+      <div class="pricing-land__inner">
+        <header class="section-header">
+          <h2 class="section-header__title" id="pricing-heading">Pricing</h2>
+          <p class="section-header__description">Transparent tiers for teams that outgrow spreadsheets. Checkout activates when Stripe goes live.</p>
+        </header>
+        <div class="pricing-land__grid">
+          <article class="pricing-card">
+            <h3 class="pricing-card__title">Starter</h3>
+            <p class="pricing-card__price"><span class="pricing-card__amount">$49</span><span class="pricing-card__period">/mo</span></p>
+            <ul class="pricing-card__list">
+              <li>1 Meta ad account</li>
+              <li>Core dashboard &amp; alerts</li>
+              <li>Email support</li>
+            </ul>
+            <button class="btn btn--secondary pricing-card__btn" type="button" data-plan="starter">Choose Starter</button>
+          </article>
+          <article class="pricing-card pricing-card--featured">
+            <p class="pricing-card__badge">Most popular</p>
+            <h3 class="pricing-card__title">Growth</h3>
+            <p class="pricing-card__price"><span class="pricing-card__amount">$129</span><span class="pricing-card__period">/mo</span></p>
+            <ul class="pricing-card__list">
+              <li>Up to 5 Meta accounts</li>
+              <li>Advanced filters &amp; exports</li>
+              <li>Priority support</li>
+            </ul>
+            <button class="btn btn--primary pricing-card__btn" type="button" data-plan="growth">Choose Growth</button>
+          </article>
+          <article class="pricing-card">
+            <h3 class="pricing-card__title">Pro</h3>
+            <p class="pricing-card__price"><span class="pricing-card__amount">$299</span><span class="pricing-card__period">/mo</span></p>
+            <ul class="pricing-card__list">
+              <li>Unlimited Meta accounts</li>
+              <li>Team seats &amp; audit trail</li>
+              <li>White-glove onboarding</li>
+            </ul>
+            <button class="btn btn--secondary pricing-card__btn" type="button" data-plan="pro">Choose Pro</button>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="features" id="about" aria-labelledby="about-heading">
-      <div class="features__inner">
+    <section class="faq-land" id="faq" aria-labelledby="faq-heading">
+      <div class="faq-land__inner">
         <header class="section-header">
-          <h2 class="section-header__title" id="about-heading">About AdProfit</h2>
-          <p class="section-header__description">Built for operators who want confidence in ad spend decisions.</p>
+          <h2 class="section-header__title" id="faq-heading">FAQ</h2>
+          <p class="section-header__description">Straight answers for evaluation and rollout.</p>
         </header>
-      </div>
-    </section>
-    <section class="features" id="contact" aria-labelledby="contact-heading">
-      <div class="features__inner">
-        <header class="section-header">
-          <h2 class="section-header__title" id="contact-heading">Contact</h2>
-          <p class="section-header__description">Email <a class="legal-link" href="mailto:hello@okan-ozkan.eu">hello@okan-ozkan.eu</a> for early access, support, or partnership.</p>
-        </header>
-      </div>
-    </section>
-    <section class="features" id="careers" aria-labelledby="careers-heading">
-      <div class="features__inner">
-        <header class="section-header">
-          <h2 class="section-header__title" id="careers-heading">Careers</h2>
-          <p class="section-header__description">Hiring plans will be posted here as the product grows.</p>
-        </header>
+        <dl class="faq-land__list">
+          <div class="faq-land__item">
+            <dt class="faq-land__q">Where are Meta tokens stored?</dt>
+            <dd class="faq-land__a">Only on the AdProfit API. They are encrypted in Neon PostgreSQL and never returned to the browser.</dd>
+          </div>
+          <div class="faq-land__item">
+            <dt class="faq-land__q">Do I need the command line?</dt>
+            <dd class="faq-land__a">No. Connect Meta, pick an account, and load campaigns entirely through the dashboard UI.</dd>
+          </div>
+          <div class="faq-land__item">
+            <dt class="faq-land__q">Is profit exact?</dt>
+            <dd class="faq-land__a">The product clearly labels estimated profit using a fixed margin on purchase value until deeper COGS modeling ships.</dd>
+          </div>
+          <div class="faq-land__item">
+            <dt class="faq-land__q">When does billing go live?</dt>
+            <dd class="faq-land__a">Stripe checkout is coming soon. Architecture is ready; activation is a configuration step.</dd>
+          </div>
+        </dl>
       </div>
     </section>
 
+    <section class="cta-block cta-block--slim" id="get-started" aria-labelledby="cta-heading">
+      <div class="cta-block__inner">
+        <h2 class="cta-block__title" id="cta-heading">Ship calmer growth decisions</h2>
+        <p class="cta-block__text">Create a workspace, connect Meta, and see the same view your team will use in production.</p>
+        <div class="cta-block__actions">
+          <a class="btn btn--primary btn--large" href="signup.html?next=dashboard.html">Create account</a>
+          <a class="btn btn--ghost btn--large" href="mailto:hello@okan-ozkan.eu">Talk to us</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Site footer -->
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__brand">
         <a class="site-logo site-logo--footer" href="index.html">AdProfit</a>
-        <p class="site-footer__tagline">Ad and commerce analytics for profitable growth.</p>
+        <p class="site-footer__tagline">Profit-first analytics for Meta-driven brands.</p>
       </div>
       <nav class="footer-nav" aria-label="Footer">
         <div class="footer-nav__group">
           <h3 class="footer-nav__title">Product</h3>
           <ul class="footer-nav__list">
+            <li><a class="footer-nav__link" href="dashboard.html">Dashboard</a></li>
             <li><a class="footer-nav__link" href="#features">Features</a></li>
-            <li><a class="footer-nav__link" href="#how-it-works">How it works</a></li>
             <li><a class="footer-nav__link" href="#pricing">Pricing</a></li>
           </ul>
         </div>
         <div class="footer-nav__group">
-          <h3 class="footer-nav__title">Company</h3>
+          <h3 class="footer-nav__title">Account</h3>
           <ul class="footer-nav__list">
-            <li><a class="footer-nav__link" href="#about">About</a></li>
-            <li><a class="footer-nav__link" href="#contact">Contact</a></li>
-            <li><a class="footer-nav__link" href="#careers">Careers</a></li>
+            <li><a class="footer-nav__link" href="login.html">Sign in</a></li>
+            <li><a class="footer-nav__link" href="signup.html">Sign up</a></li>
+            <li><a class="footer-nav__link" href="settings.html">Settings</a></li>
           </ul>
         </div>
         <div class="footer-nav__group">
           <h3 class="footer-nav__title">Legal</h3>
           <ul class="footer-nav__list">
-            <li><a class="footer-nav__link" href="privacy.html">Privacy Policy</a></li>
-            <li><a class="footer-nav__link" href="terms.html">Terms of Use</a></li>
-            <li><a class="footer-nav__link" href="data-deletion.html">Data Deletion</a></li>
+            <li><a class="footer-nav__link" href="privacy.html">Privacy</a></li>
+            <li><a class="footer-nav__link" href="terms.html">Terms</a></li>
+            <li><a class="footer-nav__link" href="data-deletion.html">Data deletion</a></li>
           </ul>
         </div>
       </nav>
     </div>
     <div class="site-footer__bottom">
-      <p class="site-footer__legal">&copy; <span class="site-footer__year">2026</span> AdProfit Inc. All rights reserved.</p>
+      <p class="site-footer__legal">&copy; <span class="site-footer__year">2026</span> AdProfit. Hosted app: <a class="footer-nav__link" href="https://okan-ozkan.eu">okan-ozkan.eu</a> · API: <a class="footer-nav__link" href="https://adprofit.onrender.com/v1/health">adprofit.onrender.com</a></p>
     </div>
   </footer>
 
   <script type="module">
     document.querySelectorAll("[data-plan]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        window.alert("Stripe checkout is not configured yet.");
+        window.alert("Stripe checkout is coming soon.");
       });
     });
   </script>
-
 </body>
 </html>

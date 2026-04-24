@@ -28,13 +28,14 @@ function baseSystem() {
     environment: process.env.NODE_ENV || "development",
     frontendUrl: "https://okan-ozkan.eu",
     backendUrl: "https://adprofit.onrender.com",
-    corsOrigin: process.env.CORS_ORIGIN || "",
-    metaRedirectUri: process.env.META_REDIRECT_URI || "",
+    hasCorsOrigin: isConfigured("CORS_ORIGIN"),
+    metaOAuthRedirectConfigured: isConfigured("META_REDIRECT_URI"),
     hasMetaAppId: isConfigured("META_APP_ID"),
     hasMetaSecret: isConfigured("META_APP_SECRET"),
     hasStripeKey: isConfigured("STRIPE_SECRET_KEY"),
     hasDatabaseUrl: isConfigured("DATABASE_URL"),
     hasJwtSecret: isConfigured("JWT_SECRET"),
+    hasTokenEncryptionSecret: isConfigured("TOKEN_ENCRYPTION_SECRET"),
   };
 }
 

@@ -193,14 +193,68 @@ function formatPercent(ratio) {
   }).format(ratio);
 }
 
-/** @param {'healthy'|'warn'|'risk'} tone */
+/**
+ * CTR from API may be ratio (0.02) or already percentage-like; normalize to 0–1 for display.
+ * @param {unknown} raw
+ */
+function normalizeCtrRatio(raw) {
+  if (typeof raw !== "number" || !Number.isFinite(raw)) return null;
+  if (raw > 1 && raw <= 100) return raw / 100;
+  if (raw > 100) return null;
+  return raw;
+}
+
+/**
+ * @param {number} spend
+ * @param {number} purchases
+ * @param {number} roas
+ * @returns {{ statusLabel: string, statusTone: "healthy" | "warn" | "risk" | "neutral", recommendation: string }}
+ */
+function computeCampaignSaasStatus(spend, purchases, roas) {
+  const s = Number(spend) || 0;
+  const p = Number(purchases) || 0;
+  const r = Number(roas) || 0;
+  if (p === 0 && s > 0) {
+    return {
+      statusLabel: "No purchases",
+      statusTone: "risk",
+      recommendation:
+        "Verify pixel events and landing paths; reduce spend until conversions appear.",
+    };
+  }
+  if (r >= 3) {
+    return {
+      statusLabel: "Strong",
+      statusTone: "healthy",
+      recommendation:
+        "Scale in steps; watch frequency and marginal ROAS as you increase budget.",
+    };
+  }
+  if (r < 1.5) {
+    return {
+      statusLabel: "Warning",
+      statusTone: "warn",
+      recommendation:
+        "Audit creative fatigue, audience overlap, and post-click experience.",
+    };
+  }
+  return {
+    statusLabel: "Monitoring",
+    statusTone: "neutral",
+    recommendation:
+      "Hold spend steady; validate incrementality before scaling further.",
+  };
+}
+
+/** @param {'healthy'|'warn'|'risk'|'neutral'} tone */
 function statusToneToPillClass(tone) {
   const map = {
     healthy: "status-pill status-pill--healthy",
     warn: "status-pill status-pill--warn",
     risk: "status-pill status-pill--risk",
+    neutral: "status-pill status-pill--neutral",
   };
-  return map[tone] || map.healthy;
+  return map[tone] || map.neutral;
 }
 
 /** @param {'critical'|'warning'|'info'} severity */
@@ -251,36 +305,49 @@ function renderMetrics(pm, period) {
   const currency = pm.currency || "USD";
   const periodDesc = `${period.label} · ${period.sourceLabel}`;
 
+  const purchases =
+    typeof pm.purchases === "number" && Number.isFinite(pm.purchases)
+      ? pm.purchases
+      : null;
+
   const cards = [
     {
       label: "Total spend",
       value: formatCurrency(pm.totalSpend, currency),
-      hint: `${period.label} · Meta Ads`,
+      hint: `${period.label} · ad platforms`,
     },
     {
       label: "Revenue",
       value: formatCurrency(pm.revenue, currency),
-      hint: "Attributed orders · Woo + Shopify",
+      hint: "Attributed purchase value",
+    },
+    {
+      label: "Purchases",
+      value:
+        purchases != null
+          ? new Intl.NumberFormat("en-US").format(purchases)
+          : "—",
+      hint: "Orders attributed in window",
     },
     {
       label: "ROAS",
       value: formatRatio(pm.roas, 2),
-      hint: "Blended · revenue ÷ spend",
+      hint: "Revenue ÷ spend",
     },
     {
       label: "CPA",
       value: formatCurrency2(pm.cpa, currency),
-      hint: "Cost per purchase",
+      hint: "Spend ÷ purchases",
     },
     {
       labelHtml: 'Profit <span class="metric-card__tag">est.</span>',
       value: formatCurrency(pm.estimatedProfit, currency),
-      hint: "After estimated COGS & fees",
+      hint: "Purchase value × 35% − spend (model)",
     },
     {
       label: "Margin",
       value: formatPercent(pm.margin),
-      hint: "Profit ÷ revenue",
+      hint: "Estimated profit ÷ revenue",
     },
   ];
 
@@ -363,7 +430,51 @@ function renderPerformanceSummary(snap, currency) {
  */
 function campaignSearchBlob(c) {
   const tags = Array.isArray(c.tags) ? c.tags.join(" ") : "";
-  return `${c.name} ${c.statusLabel} ${tags}`.trim().toLowerCase();
+  const st = typeof c.statusLabel === "string" ? c.statusLabel : "";
+  return `${c.name} ${st} ${tags}`.trim().toLowerCase();
+}
+
+/**
+ * @param {{ mode?: string, message?: string } | undefined} state
+ */
+function renderDataSourceBadge(state) {
+  const el = document.getElementById("dashboard-env-badge");
+  if (!el) return;
+  const mode = state?.mode || "demo";
+  if (mode === "live") {
+    el.textContent = "Live";
+    el.className = "dashboard-env-badge dashboard-env-badge--live";
+    el.hidden = false;
+    el.title = "Campaign rows from Meta Ads API";
+  } else if (mode === "loading") {
+    el.textContent = "";
+    el.hidden = true;
+    el.removeAttribute("title");
+  } else {
+    el.textContent = "Demo";
+    el.className = "dashboard-env-badge dashboard-env-badge--demo";
+    el.hidden = false;
+    el.title =
+      typeof state?.message === "string" && state.message
+        ? state.message
+        : "Embedded sample data";
+  }
+}
+
+function setupDashboardNav() {
+  const links = document.querySelectorAll("a[data-nav-anchor]");
+  function syncActive() {
+    const raw = (location.hash || "#overview").replace(/^#/, "") || "overview";
+    links.forEach((a) => {
+      const anchor = a.getAttribute("data-nav-anchor");
+      a.classList.toggle(
+        "dashboard-nav__link--active",
+        anchor === raw
+      );
+    });
+  }
+  window.addEventListener("hashchange", syncActive);
+  syncActive();
 }
 
 /**
@@ -379,24 +490,52 @@ function renderCampaignTable(rows, currency) {
 
   const cur = currency || "USD";
 
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="10" class="data-table__empty">No campaigns match your filters.</td></tr>`;
+    return;
+  }
+
   tbody.innerHTML = rows
     .map((c) => {
       const derived = deriveCampaignMetrics(c);
-      const roas = derived.roas ?? c.roas;
-      const cpa = derived.cpa ?? c.cpa;
-      const profit = derived.profit ?? c.estimatedProfit;
+      const roasNum = derived.roas ?? c.roas ?? 0;
+      const spend = Number(c.spend) || 0;
+      const purchases = Number(c.purchases) || 0;
+      const saas = computeCampaignSaasStatus(spend, purchases, Number(roasNum));
+      const statusLabel = saas.statusLabel;
+      const pillClass = statusToneToPillClass(saas.statusTone);
+      const recommendation = escapeHtml(
+        typeof c.recommendation === "string" && c.recommendation.trim()
+          ? c.recommendation.trim()
+          : saas.recommendation
+      );
+      const profit =
+        c.estimatedProfit != null ? c.estimatedProfit : derived.profit;
       const profitClass =
         profit != null && profit >= 0
           ? "data-table__positive"
           : "data-table__negative";
-      const pillClass = statusToneToPillClass(c.statusTone);
       const roasCell =
-        roas != null ? escapeHtml(formatRatio(roas, 2)) : "—";
-      const cpaCell =
-        cpa != null ? escapeHtml(formatCurrency2(cpa, cur)) : "—";
+        roasNum != null && roasNum > 0
+          ? escapeHtml(formatRatio(roasNum, 2))
+          : "—";
+      const cpa = derived.cpa ?? c.cpa;
+      const cpc = Number.isFinite(Number(c.cpc)) ? Number(c.cpc) : null;
+      let cpaCpcHtml = "—";
+      if (cpa != null) {
+        cpaCpcHtml = `<span class="data-table__stack-main">${escapeHtml(formatCurrency2(cpa, cur))}</span>`;
+        if (cpc != null) {
+          cpaCpcHtml += `<span class="data-table__stack-sub">CPC ${escapeHtml(formatCurrency2(cpc, cur))}</span>`;
+        }
+      } else if (cpc != null) {
+        cpaCpcHtml = `<span class="data-table__stack-main">—</span><span class="data-table__stack-sub">CPC ${escapeHtml(formatCurrency2(cpc, cur))}</span>`;
+      }
+      const ctrRatio = normalizeCtrRatio(c.ctr);
+      const ctrCell =
+        ctrRatio != null ? escapeHtml(formatPercent(ctrRatio)) : "—";
       const profitCell =
         profit != null ? escapeHtml(formatSignedProfit(profit, cur)) : "—";
-      const blob = escapeHtml(campaignSearchBlob(c));
+      const blob = escapeHtml(campaignSearchBlob({ ...c, statusLabel }));
       return `
       <tr data-campaign-id="${escapeHtml(c.id)}" data-search-blob="${blob}">
         <td class="data-table__primary">${escapeHtml(c.name)}</td>
@@ -404,9 +543,11 @@ function renderCampaignTable(rows, currency) {
         <td>${escapeHtml(String(c.purchases))}</td>
         <td>${escapeHtml(formatCurrency(c.revenue, cur))}</td>
         <td>${roasCell}</td>
-        <td>${cpaCell}</td>
+        <td class="data-table__stack">${cpaCpcHtml}</td>
+        <td>${ctrCell}</td>
         <td class="${profitClass}">${profitCell}</td>
-        <td><span class="${pillClass}">${escapeHtml(c.statusLabel)}</span></td>
+        <td><span class="${pillClass}">${escapeHtml(statusLabel)}</span></td>
+        <td class="data-table__rec">${recommendation}</td>
       </tr>`;
     })
     .join("");
@@ -920,7 +1061,7 @@ function renderMeta(m) {
  * @param {{ mode: "loading" | "live" | "demo", message?: string, accountId?: string, currency?: string }} state
  */
 function renderCampaignDataState(state) {
-  const desc = document.querySelector("#campaigns .dashboard-section__description");
+  const desc = document.getElementById("campaigns-section-desc");
   if (!desc) return;
   if (state.mode === "loading") {
     desc.textContent = "Loading live Meta data…";
@@ -936,16 +1077,6 @@ function renderCampaignDataState(state) {
   desc.textContent =
     state.message ||
     "Using demo data. Live Meta data is currently unavailable.";
-}
-
-/**
- * @param {number} roas
- * @returns {{ statusLabel: string, statusTone: "healthy" | "warn" | "risk" }}
- */
-function campaignStatusFromRoas(roas) {
-  if (roas >= 3) return { statusLabel: "Scaling", statusTone: "healthy" };
-  if (roas >= 1.5) return { statusLabel: "Active", statusTone: "warn" };
-  return { statusLabel: "Review", statusTone: "risk" };
 }
 
 /**
@@ -981,9 +1112,10 @@ function normalizeLiveCampaignRows(campaigns) {
           : Number.isFinite(Number(c?.cpc))
             ? Number(c.cpc)
             : null;
-      // Placeholder profitability rule for prototype dashboard mapping.
+      const cpc = Number.isFinite(Number(c?.cpc)) ? Number(c.cpc) : null;
+      const ctrRaw = normalizeCtrRatio(c?.ctr);
       const estimatedProfit = revenue * 0.35 - spend;
-      const status = campaignStatusFromRoas(roas);
+      const saas = computeCampaignSaasStatus(spend, purchases, roas);
       return {
         id,
         externalId: id,
@@ -995,9 +1127,12 @@ function normalizeLiveCampaignRows(campaigns) {
         estimatedProfit,
         roas,
         cpa,
+        cpc,
+        ctr: ctrRaw,
         currency,
-        statusLabel: status.statusLabel,
-        statusTone: status.statusTone,
+        statusLabel: saas.statusLabel,
+        statusTone: saas.statusTone,
+        recommendation: saas.recommendation,
         tags: ["live-meta"],
       };
     })
@@ -1272,7 +1407,8 @@ async function hydrateMetaIntegrationUx(base, forceChooser = false) {
       ? "Your Meta session expired or is missing. Re-authorize to continue loading live data."
       : "Authorize Meta to discover ad accounts and pull campaign insights.";
     panel.innerHTML = `
-      <article class="integration-card integration-card--meta-live">
+      <article class="integration-card integration-card--meta-live integration-card--meta-cta">
+        <p class="integration-card__eyebrow">Meta Ads</p>
         <h3 class="integration-card__name">${escapeHtml(title)}</h3>
         <p class="integration-card__detail">${escapeHtml(detail)}</p>
         <div class="integration-card__actions">
@@ -1299,9 +1435,14 @@ async function hydrateMetaIntegrationUx(base, forceChooser = false) {
   const panel = document.getElementById("meta-connection-panel");
   if (!panel) return;
   panel.innerHTML = `
-    <article class="integration-card integration-card--meta-live">
-      <h3 class="integration-card__name">Connect Meta Ads</h3>
-      <p class="integration-card__detail">Authorize Meta to discover ad accounts and pull campaign insights.</p>
+    <article class="integration-card integration-card--meta-live integration-card--meta-cta">
+      <p class="integration-card__eyebrow">Meta Ads</p>
+      <h3 class="integration-card__name">Connect your ad account</h3>
+      <p class="integration-card__detail">Secure OAuth to the AdProfit API. Your access token is encrypted and stored in PostgreSQL — never in this browser.</p>
+      <ul class="integration-card__bullets">
+        <li>Campaign spend, revenue, and efficiency metrics</li>
+        <li>One-click reconnect if your session expires</li>
+      </ul>
       <div class="integration-card__actions">
         <a class="integration-card__btn integration-card__btn--primary" href="${escapeHtml(`${base}/v1/integrations/meta/start`)}">Connect Meta Ads</a>
       </div>
@@ -1324,6 +1465,7 @@ export function renderDashboard(payload, sessionDisplayName) {
     payload.workspace?.currency ||
     "USD";
 
+  renderDataSourceBadge(payload._campaignDataState);
   renderMeta(payload.meta);
   renderShell(payload.dashboardShell, sessionDisplayName);
   renderProfitExplainer(payload.profitExplainer);
@@ -1483,6 +1625,7 @@ async function init() {
 
   notifyUi = setupNotifications();
   renderCampaignDataState({ mode: "loading" });
+  renderDataSourceBadge({ mode: "loading" });
 
   const payload = await loadDashboardPayload();
   if (!isDashboardPayload(payload)) return;
@@ -1491,6 +1634,7 @@ async function init() {
   renderCampaignDataState(
     payload._campaignDataState || { mode: "demo", message: "Using demo data." }
   );
+  setupDashboardNav();
 
   setupCampaignControls();
   setupCampaignSearch();
@@ -1506,6 +1650,7 @@ async function init() {
   } else if (metaOAuth === "oauth_error") {
     showDemoToast("Meta sign-in did not complete. Try again.");
   }
+
   hydrateMetaIntegrationUx(base, metaOAuth === "select-account").catch((e) => {
     console.warn("[AdProfit] Meta integration panel failed to load.", e);
     renderMetaPanelInfo("Could not load Meta connection status.");
