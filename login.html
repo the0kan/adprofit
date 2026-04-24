@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to AdProfit — profit intelligence for Meta Ads and your stores.">
+  <meta name="theme-color" content="#09090b">
+  <meta name="adprofit-api-base" content="https://adprofit.onrender.com">
+  <title>Sign in — AdProfit</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="page auth-page">
+
+  <main class="auth-shell">
+    <div class="auth-card">
+      <a class="site-logo" href="index.html">AdProfit</a>
+      <h1 class="auth-title">Sign in</h1>
+      <p class="auth-lead">Sign in with your workspace credentials. With the API configured, requests go to the live backend; otherwise this browser uses a local demo session.</p>
+
+      <form class="auth-form" id="login-form" novalidate>
+        <div class="auth-field">
+          <label for="login-email">Work email</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" required placeholder="you@company.com">
+        </div>
+        <div class="auth-field">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+        </div>
+        <p class="auth-error" id="login-error" aria-live="polite"></p>
+        <button type="submit" class="btn btn--primary btn--large auth-submit">Continue</button>
+      </form>
+
+      <p class="auth-hint">Tip: use the email format you signed up with. Session data stays in this browser until you sign out.</p>
+      <p class="auth-footer">No account? <a href="signup.html">Create one</a> · <a href="index.html">Back to site</a></p>
+    </div>
+  </main>
+
+  <script type="module" src="login.js"></script>
+</body>
+</html>

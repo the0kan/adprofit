@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create an AdProfit account — profit intelligence for Meta Ads and your stores.">
+  <meta name="theme-color" content="#09090b">
+  <meta name="adprofit-api-base" content="https://adprofit.onrender.com">
+  <title>Create account — AdProfit</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="page auth-page">
+
+  <main class="auth-shell">
+    <div class="auth-card">
+      <a class="site-logo" href="index.html">AdProfit</a>
+      <h1 class="auth-title">Create account</h1>
+      <p class="auth-lead">Create your workspace. With the API configured, your account is stored securely; otherwise a local demo session is used for this browser only.</p>
+
+      <form class="auth-form" id="signup-form" novalidate>
+        <div class="auth-field">
+          <label for="signup-email">Work email</label>
+          <input id="signup-email" name="email" type="email" autocomplete="username" required placeholder="you@company.com">
+        </div>
+        <div class="auth-field">
+          <label for="signup-password">Password <span class="auth-field__hint">(min. 8 characters, demo)</span></label>
+          <input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters" aria-describedby="signup-password-hint">
+          <p class="visually-hidden" id="signup-password-hint">Password must be at least 8 characters. When the API is configured, credentials are sent over HTTPS to your AdProfit backend.</p>
+        </div>
+        <p class="auth-error" id="signup-error" aria-live="polite"></p>
+        <button type="submit" class="btn btn--primary btn--large auth-submit">Create workspace</button>
+      </form>
+
+      <p class="auth-hint">After sign-up you are signed in automatically. Use a strong password you do not reuse elsewhere.</p>
+      <p class="auth-footer">Already have access? <a href="login.html">Sign in</a> · <a href="index.html">Back to site</a></p>
+    </div>
+  </main>
+
+  <script type="module" src="signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AdProfit account settings — session, Meta Ads connection, and workspace shortcuts.">
+  <meta name="theme-color" content="#09090b">
+  <meta name="adprofit-api-base" content="https://adprofit.onrender.com">
+  <title>Settings — AdProfit</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="page auth-page settings-page">
+  <main class="auth-shell auth-shell--settings">
+    <div class="auth-card auth-card--settings">
+      <a class="site-logo" href="dashboard.html">AdProfit</a>
+      <h1 class="auth-title">Settings</h1>
+      <p class="auth-lead">Account session, Meta Ads, and quick links. Billing will appear here when Stripe is enabled.</p>
+
+      <section class="settings-block" aria-labelledby="settings-account-h">
+        <h2 class="settings-block__title" id="settings-account-h">Account</h2>
+        <p class="settings-block__text" id="settings-user">Signed in as: —</p>
+      </section>
+
+      <section class="settings-block" aria-labelledby="settings-meta-h">
+        <h2 class="settings-block__title" id="settings-meta-h">Meta Ads</h2>
+        <p class="settings-block__text" id="settings-meta-connection">Checking connection…</p>
+        <p class="settings-block__hint">Connect or reconnect from the dashboard integrations section for the full flow. You can also start OAuth directly here.</p>
+        <div class="settings-actions">
+          <a class="btn btn--secondary" href="https://adprofit.onrender.com/v1/integrations/meta/start">Connect Meta Ads</a>
+          <a class="btn btn--ghost" href="dashboard.html#integrations">Back to dashboard</a>
+        </div>
+      </section>
+
+      <section class="settings-block" aria-labelledby="settings-session-h">
+        <h2 class="settings-block__title" id="settings-session-h">Session</h2>
+        <div class="settings-actions">
+          <button class="btn btn--primary" type="button" id="settings-sign-out">Sign out</button>
+          <a class="btn btn--ghost" href="admin.html">Admin panel</a>
+        </div>
+      </section>
+
+      <p class="auth-footer"><a href="index.html">Marketing site</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+    </div>
+  </main>
+  <script type="module" src="settings.js"></script>
+</body>
+</html>

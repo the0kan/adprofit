@@ -1,0 +1,86 @@
+/* Admin — extends dashboard.css tokens (--db-*) */
+
+.admin-token-form {
+  display: flex;
+  gap: var(--db-space-3);
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.admin-token-form__input {
+  min-width: 0;
+  flex: 1 1 12rem;
+  max-width: 100%;
+  border: 1px solid var(--db-border-strong);
+  background: var(--db-surface);
+  color: var(--db-text);
+  border-radius: var(--db-radius-lg);
+  padding: var(--db-space-3) var(--db-space-4);
+  font-size: var(--db-text-sm);
+  transition:
+    border-color var(--db-transition-fast),
+    box-shadow var(--db-transition-fast);
+}
+
+.admin-token-form__input:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.admin-token-form__input:focus {
+  outline: none;
+  border-color: var(--db-accent-border);
+  box-shadow: 0 0 0 3px var(--db-accent-dim);
+}
+
+.admin-token-form .btn {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+#admin-integrations-note:not([hidden]) {
+  margin-top: var(--db-space-2);
+  max-width: 56rem;
+  color: var(--db-warning);
+  font-size: var(--db-text-sm);
+  line-height: var(--db-leading-relaxed);
+}
+
+.admin-system-list {
+  list-style: none;
+  margin: 0 0 var(--db-space-6);
+  padding: 0;
+  display: grid;
+  gap: var(--db-space-2);
+}
+
+.admin-system-list li {
+  border: 1px solid var(--db-border);
+  border-radius: var(--db-radius-lg);
+  padding: var(--db-space-3) var(--db-space-4);
+  color: var(--db-text-secondary);
+  background: var(--db-surface);
+  font-size: var(--db-text-sm);
+}
+
+.dashboard-quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--db-space-3);
+  align-items: center;
+}
+
+.dashboard-quick-links .btn {
+  flex: 0 1 auto;
+}
+
+@media (max-width: 640px) {
+  .dashboard-quick-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-quick-links .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

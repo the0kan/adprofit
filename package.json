@@ -1,0 +1,16 @@
+{
+  "name": "adprofit-platform",
+  "version": "0.2.0",
+  "private": true,
+  "description": "AdProfit — Meta Ads + e-commerce profit analytics (product demo)",
+  "scripts": {
+    "setup": "npm install && cd backend && npm install",
+    "dev": "concurrently -k -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "cd backend && npm run dev",
+    "dev:web": "npx --yes serve -l 5173 .",
+    "start:api": "cd backend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
